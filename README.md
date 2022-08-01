@@ -1,0 +1,1 @@
+Chrome extensions that allows for automatically displaying the name of a game on various pages of Youtube that don't feature that information.
