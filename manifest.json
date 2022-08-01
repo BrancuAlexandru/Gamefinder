@@ -1,0 +1,13 @@
+{
+  "name": "Gamefinder",
+  "description": "Finds what game a youtube video features.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "128": "favicon.png"
+  },
+  "background": {
+    "service_worker": "finder.js"
+  },
+  "permissions": ["storage"]
+}
