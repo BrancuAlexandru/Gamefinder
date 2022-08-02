@@ -7,7 +7,15 @@
     "128": "favicon.png"
   },
   "background": {
-    "service_worker": "finder.js"
+    "service_worker": "background.js"
   },
-  "permissions": ["storage"]
+  "content_scripts": [{
+    "matches": ["https://*.youtube.com/*"],
+    "js": ["contentScripts.js"]
+  }],
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["https://*.youtube.com/*"],
+  "action": {
+    "default_popup": "popup.html"
+  }
 }
