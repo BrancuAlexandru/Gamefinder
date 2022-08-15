@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@yimura/scraper": "^1.2.3"
+  }
+}
