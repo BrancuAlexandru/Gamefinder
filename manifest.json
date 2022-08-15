@@ -6,16 +6,14 @@
   "icons": {
     "128": "favicon.png"
   },
+  "content_scripts": [{
+    "matches": ["https://*.youtube.com/*"],
+    "js": ["contentScripts.js"],
+    "run_at": "document_end"
+  }],
   "background": {
     "service_worker": "background.js"
   },
-  "content_scripts": [{
-    "matches": ["https://*.youtube.com/*"],
-    "js": ["contentScripts.js"]
-  }],
   "permissions": ["storage", "tabs"],
-  "host_permissions": ["https://*.youtube.com/*"],
-  "action": {
-    "default_popup": "popup.html"
-  }
+  "host_permissions": ["https://*.youtube.com/*"]
 }

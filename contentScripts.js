@@ -1,16 +1,23 @@
-const videos = document.getElementsByTagName('ytd-grid-video-renderer');
-const video = videos[0];
+// get all video titles, make a search with them in background
+const thing = () => {
+  let videos = document.getElementsByTagName('ytd-grid-video-renderer');
+  //console.log(videos);
+  let allLoadedVideoTitleAnchors = [document.querySelectorAll("#video-title")][0];
+  let allLoadedVideoTitles = [];
+  for (e of allLoadedVideoTitleAnchors) {
+    allLoadedVideoTitles.push(e.innerText);
+  }
+  console.log(document.querySelectorAll("#video-title")[1].innerText);
+  console.log(allLoadedVideoTitles);
 
-console.log(video);
-
-getVideos = async () => {
-  let link = video.getElementsByClassName('ytd-thumbnail');
-  const response = await fetch(`https://youtube.com${link}`);
-  const template = await response.text();
-  console.log(template);
+  clearMyTimeout();
 }
 
-getVideos();
+const myTimeout = setTimeout(thing, 3500);
+
+const clearMyTimeout = () => {
+  clearTimeout(myTimeout);
+}
 
 /*
 for (i = 0; i < videos.length; i++) {
