@@ -5,9 +5,8 @@ const thing = () => {
   let allLoadedVideoTitleAnchors = [document.querySelectorAll("#video-title")][0];
   let allLoadedVideoTitles = [];
   for (e of allLoadedVideoTitleAnchors) {
-    allLoadedVideoTitles.push(e.innerText);
+    allLoadedVideoTitles.push(e.getAttribute('href'));
   }
-  console.log(document.querySelectorAll("#video-title")[1].innerText);
   console.log(allLoadedVideoTitles);
 
   clearMyTimeout();
