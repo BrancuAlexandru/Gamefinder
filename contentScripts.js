@@ -1,23 +1,28 @@
-// get all video titles, make a search with them in background
-const thing = () => {
-  let videos = document.getElementsByTagName('ytd-grid-video-renderer');
-  //console.log(videos);
-  let allLoadedVideoTitleAnchors = [document.querySelectorAll("#video-title")][0];
-  let allLoadedVideoTitles = [];
-  for (e of allLoadedVideoTitleAnchors) {
-    allLoadedVideoTitles.push(e.getAttribute('href'));
-  }
-  console.log(allLoadedVideoTitles);
+// get all video IDs, then make a GET request for the video's html, then filter it for game title, then append game title as <p> to each video
 
+  // Filtering out the shorts from the ID list
+const filterShortVideoIDs = (allLoadedVideoIDs) => {
+  return allLoadedVideoIDs.filter(id => id.includes('/watch?v='));
+}
+
+  // Getting video IDs
+const getVideoIDs = () => {
+  let allLoadedVideoTitles= [document.querySelectorAll("#video-title")][0];
+  let allLoadedVideoIDs = [];
+  for (e of allLoadedVideoTitles) {
+    allLoadedVideoIDs.push(e.getAttribute('href'));
+  }
+  let videoIDFilteredList = filterShortVideoIDs(allLoadedVideoIDs);
   clearMyTimeout();
 }
 
-const myTimeout = setTimeout(thing, 3500);
+const myTimeout = setTimeout(getVideoIDs, 3500);
 
 const clearMyTimeout = () => {
   clearTimeout(myTimeout);
 }
 
+  // note: skip shorts from the appending process
 /*
 for (i = 0; i < videos.length; i++) {
   (async () => {
@@ -25,8 +30,8 @@ for (i = 0; i < videos.length; i++) {
     const template = await response.text();
     console.log(template);
   })
-  let someText = document.createElement('p');
-  someText.textContent = 'lalalala';
+  let gameTitle = document.createElement('p');
+  someText.textContent = response.lalala;
   someText.style.color = '#ababab';
   videos[i].appendChild(someText);
 }
