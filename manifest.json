@@ -11,9 +11,6 @@
     "js": ["contentScripts.js"],
     "run_at": "document_end"
   }],
-  "background": {
-    "service_worker": "background.js"
-  },
   "permissions": ["storage", "tabs"],
   "host_permissions": ["https://*.youtube.com/*"]
 }
