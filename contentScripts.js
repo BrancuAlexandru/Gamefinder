@@ -8,37 +8,45 @@ const clearMyInterval = () => {
 
 const checkIfVideosAreLoaded = () => {
   if (videosAreLoaded) {
-      // Filtering out the shorts from the ID list
-    const filterShortVideoIDs = (allLoadedVideoIDs) => {
-      return allLoadedVideoIDs.filter(id => id.includes('/watch?v='));
-    }
-
     const getGameName = (html) => {
-      // only if it is in the gaming category
-      const gamingCategoryRegex = /[]/g;
-      if (html.match(gamingCategoryRegex)) {
-        const gameNameRegex = /"title":{"simpleText":(["'])(?:(?=(\\?))\2.)*?\1}/g;
-        let gameNames = [...html.matchAll(gameNameRegex)];
-        console.log(gameNames[1][0]);
+      const gameNameRegex = /(?<="title":{"simpleText":)(["'])(?:(?=(\\?))\2.)*?\1/g;
+        // Regular expression breakdown:
+        // (?<="title":{"simpleText":) everything after "title":{"simpleText":
+        // (["']) everything in quotes up to \1 (end quote)
+        // (?:(?=(\\?))\2.)*? ingore backslashes
+      let gameNames = [...html.matchAll(gameNameRegex)][1][0];
+      if (gameNames.includes("Mix - ") || gameNames.includes("You may also like...")) {
+        gameNames = null;
       }
     }
 
       // Using video ID to get the HTML which includes the game title
     const getHTMLFromVideo = async (id) => {
-        // note: filter out non gaming videos, append only gaming category titles to videos
-      await fetch('https://www.youtube.com' + id)
+      let html = await fetch('https://www.youtube.com' + id)
       .then((response) => response.text())
-      .then((html) => getGameName(html))
       .catch((err) => {
         console.warn('Something went wrong.', err);
       });
+      let categoryRegex = html.match(/(?<="category":)(["'])(?:(?=(\\?))\2.)*?\1/g);
+        // Regular expression breakdown:
+        // (?<="category":) everything after "category":
+        // (["']) everything in quotes up to \1 (end quote)
+        // (?:(?=(\\?))\2.)*? ingore backslashes
+      if (categoryRegex[0] === `"Gaming"`) {
+        getGameName(html);
+      }
     }
 
     const getVideoIDs = () => {
       let allLoadedVideoTitles= [document.querySelectorAll("#video-title")][0];
       let allLoadedVideoIDs = [];
-      for (e of allLoadedVideoTitles) {
+      for (let e of allLoadedVideoTitles) {
         allLoadedVideoIDs.push(e.getAttribute('href'));
+      }
+
+        // Filtering out the shorts from the ID list
+      const filterShortVideoIDs = (allLoadedVideoIDs) => {
+        return allLoadedVideoIDs.filter(id => id.includes('/watch?v='));
       }
 
       let videoIDFilteredList = filterShortVideoIDs(allLoadedVideoIDs);
@@ -51,7 +59,7 @@ const checkIfVideosAreLoaded = () => {
   }
 }
 
-const myInterval = setInterval(checkIfVideosAreLoaded, 100);
+const myInterval = setInterval(checkIfVideosAreLoaded, 300);
 
 /*
   - Get index of removed IDs from videoIDFilteredList, and remove those at the same index from allLoadedVideoIDs
