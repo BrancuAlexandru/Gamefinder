@@ -55,7 +55,9 @@ const checkIfVideosAreLoaded = () => {
       let result = [];
       if (categoryRegex[0] === `"Gaming"`) {
         result[0] = getGameName(html);
+        console.log(result[0]);
         result[1] = id;
+        console.log(result[1]);
       }
       return result;
     }
@@ -75,7 +77,12 @@ const checkIfVideosAreLoaded = () => {
           videos.push(allLoadedVideoTitles[allLoadedVideoTitles.indexOf(e)]);
         }
       }
-      let result = {};
+      let result = {
+        videos: [],
+        videoIDs: [],
+        gameNames: [],
+        gameVideoIDs: []
+      };
       result.videos = videos;
 
       let videoIDFilteredList = filterShortVideoIDs(allLoadedVideoIDs);
@@ -83,8 +90,8 @@ const checkIfVideosAreLoaded = () => {
 
       for (let i = 0; i < videoIDFilteredList.length; i++) {
         let response = getHTMLFromVideo(videoIDFilteredList[i]);
-        result.gameNames = response[0];
-        result.gameVideoIDs = response[1];
+        result.gameNames.push(response[0]);
+        result.gameVideoIDs.push(response[1]);
       }
       return result;
     }
