@@ -11,18 +11,19 @@ const checkIfVideosAreLoaded = () => {
     const compareGameIdToVideos = (data) => {
       let games = [];
       let elements = [];
-      for (let i = 0; i < 5; i++) {
-        elements.push([data.videoIDs[i], data.videos[i]]);
-        games.push([data.gameVideoIDs[i], data.gameNames[i]]);
-        //console.log(games[i]);
-        /*for (let j = 0; j < videos.length; j++) {
+      for (let x = 0; x < data.videos.length; x++) {
+        elements[x] = [data.videoIDs[x], data.videos[x]];
+        games[x] = [data.gameVideoIDs[x], data.gameNames[x]];
+      }
+      for (let i = 0; i < data.videos.length; i++) {
+        for (let j = 0; j < data.videos.length; j++) {
           if (games[i][0] === elements[j][0]) {
-            let paragraph = document.createElement('p');
-            paragraph.textContent = games[i][1];
-            paragraph.style.color = '#000000';
-            elements[j][1].parentElement.parentElement.appendChild(paragraph); // .parentElement isn't working
+            let name = document.createElement('h3');
+            name.textContent = games[i][1];
+            name.style.color = '#ababab';
+            elements[j][1].parentElement.parentElement.appendChild(name);
           }
-        }*/
+        }
       }
     }
 
@@ -35,7 +36,7 @@ const checkIfVideosAreLoaded = () => {
       let gameName = [...html.matchAll(gameNameRegex)][1][0];
       let result;
       if (!gameName.includes("Mix - ") && !gameName.includes("You may also like...")) {
-        result = gameName;
+        result = gameName.replace(/"/g, '');
       }
       return result;
     }
@@ -55,9 +56,7 @@ const checkIfVideosAreLoaded = () => {
       let result = [];
       if (categoryRegex[0] === `"Gaming"`) {
         result[0] = getGameName(html);
-        console.log(result[0]);
         result[1] = id;
-        console.log(result[1]);
       }
       return result;
     }
@@ -77,26 +76,26 @@ const checkIfVideosAreLoaded = () => {
           videos.push(allLoadedVideoTitles[allLoadedVideoTitles.indexOf(e)]);
         }
       }
-      let result = {
+      let data = {
         videos: [],
         videoIDs: [],
         gameNames: [],
         gameVideoIDs: []
       };
-      result.videos = videos;
+      data.videos = videos;
 
       let videoIDFilteredList = filterShortVideoIDs(allLoadedVideoIDs);
-      result.videoIDs = videoIDFilteredList;
+      data.videoIDs = videoIDFilteredList;
 
       for (let i = 0; i < videoIDFilteredList.length; i++) {
-        let response = getHTMLFromVideo(videoIDFilteredList[i]);
-        result.gameNames.push(response[0]);
-        result.gameVideoIDs.push(response[1]);
+        let response = await getHTMLFromVideo(videoIDFilteredList[i]);
+        data.gameNames.push(response[0]);
+        data.gameVideoIDs.push(response[1]);
+        console.log(`${i}/${videoIDFilteredList.length}`);
       }
-      return result;
+      compareGameIdToVideos(data);
     }
-    getVideoIDs().then((data) => console.log(data));
-    //compareGameIdToVideos(data);
+    getVideoIDs();
     clearMyInterval();
   }
 }
@@ -104,5 +103,8 @@ const checkIfVideosAreLoaded = () => {
 const myInterval = setInterval(checkIfVideosAreLoaded, 300);
 
 /*
-  - Detect if new videos are loaded, if so run the main function again, but only for the newly loaded videos (maybe scroll position)
+  - Changing the functionality from loading all videos into pressing a button on a video and
+  getting the game name just for that one (because currently it is VERY slow, a minute+)
+  
+  - Detecting when new videos are loaded and putting buttons on those too
 */
