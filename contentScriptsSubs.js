@@ -118,10 +118,3 @@ const checkForNewVideos = () => {
 
 const myInterval = setInterval(checkIfVideosAreLoaded, 300);
 const newLoadedVideosInterval = setInterval(checkForNewVideos, 300);
-
-/*
-  - Make it work in:
-    - Home
-    - Recommendations
-  - Make it reuse myInterval if a new page is populated in, because YouTube doesn't change the html file, just its contents
-*/

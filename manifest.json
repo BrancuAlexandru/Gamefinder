@@ -6,11 +6,28 @@
   "icons": {
     "128": "favicon.png"
   },
-  "content_scripts": [{
-    "matches": ["https://*.youtube.com/*"],
-    "js": ["contentScripts.js"],
-    "run_at": "document_end"
-  }],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/feed/subscriptions"],
+      "js": ["contentScriptsSubs.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://www.youtube.com/"],
+      "js": ["contentScriptsHome.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://www.youtube.com/watch?v=*"],
+      "js": ["contentScriptsRecommended.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["https://www.youtube.com/feed/explore"],
+      "js": ["contentScriptsSubs.js"],
+      "run_at": "document_end"
+    }
+  ],
   "permissions": ["storage", "tabs"],
   "host_permissions": ["https://*.youtube.com/*"]
 }
