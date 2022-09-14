@@ -8,26 +8,14 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/feed/subscriptions"],
-      "js": ["contentScriptsSubs.js"],
-      "run_at": "document_end"
-    },
-    {
-      "matches": ["https://www.youtube.com/"],
-      "js": ["contentScriptsHome.js"],
-      "run_at": "document_end"
-    },
-    {
-      "matches": ["https://www.youtube.com/watch?v=*"],
-      "js": ["contentScriptsRecommended.js"],
-      "run_at": "document_end"
-    },
-    {
-      "matches": ["https://www.youtube.com/feed/explore"],
-      "js": ["contentScriptsSubs.js"],
-      "run_at": "document_end"
+      "matches": ["https://www.youtube.com/*"],
+      "js": ["scriptLoader.js"]
     }
   ],
-  "permissions": ["storage", "tabs"],
-  "host_permissions": ["https://*.youtube.com/*"]
+  "permissions": ["tabs", "activeTab", "scripting"],
+  "host_permissions": ["https://*.youtube.com/*"],
+  "web_accessible_resources": [{
+    "resources": ["subscriptions.js", "recommended.js", "home.js"],
+    "matches": ["https://www.youtube.com/*"]
+  }]
 }

@@ -49,8 +49,6 @@ const createButtons = async (videos) => {
   let allLoadedVideoIDs = [];
   let allLoadedVideos = [];
 
-  console.log(allLoadedVideoTitles);
-
   for (let e of allLoadedVideoTitles)  {
     allLoadedVideoIDs.push(e.getAttribute('href'));
     if (e.getAttribute('href')) {
