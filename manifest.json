@@ -1,6 +1,6 @@
 {
   "name": "Gamefinder",
-  "description": "Finds what game a youtube video features.",
+  "description": "Finds what games youtube video pages feature.",
   "version": "1.0",
   "manifest_version": 3,
   "icons": {
